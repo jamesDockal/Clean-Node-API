@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:staged": "jest" 
+    "test": "jest --watch --maxWorkers=50%",
+    "test:staged": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "jest": "^27.0.6",
     "lint-staged": "^11.1.1",
     "ts-jest": "^27.0.4",
+    "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   }
 }

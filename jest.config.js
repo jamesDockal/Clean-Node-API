@@ -1,10 +1,11 @@
 module.exports = {
+  testPathIgnorePatterns: ['<rootDir>/node_modules'],
   roots: ['<rootDir>/src'],
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
   coverageDirectory: 'coverage',
-  collectCoverage: true,
+  collectCoverage: false,
   testEnvironment: 'node',
-  coverageProvider: 'v8',
+  coverageProvider: 'babel',
   transform: {
     '.+\\.ts$': 'ts-jest'
   }
