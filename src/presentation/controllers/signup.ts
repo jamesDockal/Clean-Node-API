@@ -1,17 +1,20 @@
+import { IHttpResponse, IHttpRequest } from './protocols/http'
+import { badRequest } from './helpers/httpHelper'
+import MissingParamError from './errors/missingParam'
+
 export default class SingUpController {
-  handle (httpRequest: any): any {
-    if (!httpRequest.body.name) {
-      return {
-        statusCode: 400,
-        body: new Error('Missing param: name')
+  handle (httpRequest: IHttpRequest): IHttpResponse {
+    const requiredFields = ['name', 'email']
+
+    for (const field of requiredFields) {
+      if (!httpRequest.body[field]) {
+        return badRequest(new MissingParamError(field))
       }
     }
 
-    if (!httpRequest.body.email) {
-      return {
-        statusCode: 400,
-        body: new Error('Missing param: email')
-      }
+    return {
+      statusCode: 200,
+      body: 'ok'
     }
   }
 }
