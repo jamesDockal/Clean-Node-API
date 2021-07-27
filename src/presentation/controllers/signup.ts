@@ -4,7 +4,7 @@ import MissingParamError from './errors/missingParam'
 
 export default class SingUpController {
   handle (httpRequest: IHttpRequest): IHttpResponse {
-    const requiredFields = ['name', 'email']
+    const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
     for (const field of requiredFields) {
       if (!httpRequest.body[field]) {
