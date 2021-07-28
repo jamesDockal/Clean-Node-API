@@ -4,7 +4,12 @@ export interface IHttpResponse {
 }
 
 export interface IHttpRequest{
-  body?: any
+  body: {
+    email?: string
+    name?: string
+    password?: string
+    passwordConfirmation?: string
+  }
 }
 
 // export interface IHttpRequestSignUp {
