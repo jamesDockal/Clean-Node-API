@@ -1,10 +1,10 @@
-import InvalidParamError from './errors/invalid-param-error'
-import MissingParamError from './errors/missing-param-error'
-import ServerError from './errors/internal-server-error'
-import { IEmailValidtor } from './protocols/email-validator'
+import InvalidParamError from '../errors/invalid-param-error'
+import MissingParamError from '../errors/missing-param-error'
+import ServerError from '../errors/internal-server-error'
+import { IEmailValidtor } from '../protocols/email-validator'
 import SingUpController from './signup'
-import { AddAccount, AddAccountModel } from '../../domain/usecases/add-account'
-import { AccountModel } from '../../domain/models/account-model'
+import { AddAccount, AddAccountModel } from '../../../domain/usecases/add-account'
+import { AccountModel } from '../../../domain/models/account-model'
 
 const makeEmailValidator = (): IEmailValidtor => {
   class EmailValidatorStub implements IEmailValidtor {
@@ -155,7 +155,7 @@ describe('SingUp controller', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
-  it('should return 500 if EmailValidator throws', () => {
+  it('should call AddAccount with correct values', () => {
     const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
     const httpRequest = {
@@ -172,5 +172,24 @@ describe('SingUp controller', () => {
       email: 'any_email@gmail.com',
       password: 'any_password'
     })
+  })
+  it('should return 500 if AddAccount throws', () => {
+    const { sut, addAccountStub } = makeSut()
+
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpRequest = {
+      body: {
+        email: 'invalid_email@gmail.com',
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirmation: 'any_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })

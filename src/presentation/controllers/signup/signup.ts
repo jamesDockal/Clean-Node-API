@@ -1,11 +1,11 @@
-import { IHttpResponse, IHttpRequest } from './protocols/http'
+import { IHttpResponse, IHttpRequest } from '../protocols/http'
 
-import { badRequest, serverError } from './helpers/httpHelper'
+import { badRequest, serverError } from '../helpers/httpHelper'
 
-import { IEmailValidtor } from './protocols/email-validator'
-import MissingParamError from './errors/missing-param-error'
-import InvalidParamError from './errors/invalid-param-error'
-import { AddAccount } from '../../domain/usecases/add-account'
+import { IEmailValidtor } from '../protocols/email-validator'
+import MissingParamError from '../errors/missing-param-error'
+import InvalidParamError from '../errors/invalid-param-error'
+import { AddAccount } from '../../../domain/usecases/add-account'
 
 export default class SingUpController {
   private readonly emailValidator: IEmailValidtor
