@@ -1,6 +1,6 @@
 import { IHttpResponse, IHttpRequest } from '../protocols/http'
 
-import { badRequest, serverError } from '../helpers/httpHelper'
+import { badRequest, ok, serverError } from '../helpers/httpHelper'
 
 import { IEmailValidtor } from '../protocols/email-validator'
 import MissingParamError from '../errors/missing-param-error'
@@ -42,10 +42,7 @@ export default class SingUpController {
         password
       })
 
-      return {
-        statusCode: 200,
-        body: account
-      }
+      return ok(account)
     } catch (e) {
       return serverError()
     }
