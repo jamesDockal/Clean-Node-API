@@ -16,7 +16,7 @@ export default class SingUpController {
     this.addAccont = addAccont
   }
 
-  handle (httpRequest: IHttpRequest): IHttpResponse {
+  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
       for (const field of requiredFields) {
@@ -36,7 +36,7 @@ export default class SingUpController {
         return badRequest(new InvalidParamError('email'))
       }
 
-      const account = this.addAccont.add({
+      const account = await this.addAccont.add({
         email,
         name,
         password
