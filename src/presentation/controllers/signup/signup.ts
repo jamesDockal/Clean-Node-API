@@ -36,7 +36,7 @@ export default class SingUpController {
         return badRequest(new InvalidParamError('email'))
       }
 
-      this.addAccont.add({
+      const account = this.addAccont.add({
         email,
         name,
         password
@@ -44,7 +44,7 @@ export default class SingUpController {
 
       return {
         statusCode: 200,
-        body: ' e.message'
+        body: account
       }
     } catch (e) {
       return serverError()

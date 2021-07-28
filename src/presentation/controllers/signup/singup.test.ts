@@ -19,10 +19,10 @@ const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     add (account: AddAccountModel): AccountModel {
       const fakeAccount = {
-        id: 'some_id',
-        name: 'any_name',
-        email: 'any_email',
-        password: 'any_password'
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@gmail.com',
+        password: 'valid_password'
       }
       return fakeAccount
     }
@@ -160,17 +160,17 @@ describe('SingUp controller', () => {
     const addSpy = jest.spyOn(addAccountStub, 'add')
     const httpRequest = {
       body: {
-        name: 'any_name',
-        email: 'any_email@gmail.com',
-        password: 'any_password',
-        passwordConfirmation: 'any_password'
+        name: 'valid_name',
+        email: 'valid_email@gmail.com',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password'
       }
     }
     sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
-      name: 'any_name',
-      email: 'any_email@gmail.com',
-      password: 'any_password'
+      name: 'valid_name',
+      email: 'valid_email@gmail.com',
+      password: 'valid_password'
     })
   })
   it('should return 500 if AddAccount throws', () => {
@@ -182,7 +182,7 @@ describe('SingUp controller', () => {
 
     const httpRequest = {
       body: {
-        email: 'invalid_email@gmail.com',
+        email: 'any_email@gmail.com',
         name: 'any_name',
         password: 'any_password',
         passwordConfirmation: 'any_password'
@@ -191,5 +191,26 @@ describe('SingUp controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
+  })
+  it('should return 200 if valid data is provided', () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        email: 'valid_email@gmail.com',
+        name: 'valid_name',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      id: 'valid_id',
+      email: 'valid_email@gmail.com',
+      name: 'valid_name',
+      password: 'valid_password'
+    })
   })
 })
