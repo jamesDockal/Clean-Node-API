@@ -3,20 +3,15 @@ export interface IHttpResponse {
   body: any
 }
 
-export interface IHttpRequest{
-  body: {
-    email?: string
-    name?: string
-    password?: string
-    passwordConfirmation?: string
-  }
-}
-
-// export interface IHttpRequestSignUp {
+// export interface IHttpRequest{
 //   body: {
-//     email?: string
-//     name?: string
-//     password?: string
-//     passwordConfirmation?: string
+//     email: string
+//     name: string
+//     password: string
+//     passwordConfirmation: string
 //   }
 // }
+
+export interface IHttpRequest{
+  body?: any
+}
