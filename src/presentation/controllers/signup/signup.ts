@@ -1,8 +1,8 @@
-import { IHttpResponse, IHttpRequest } from '../protocols/http'
+import { IHttpResponse, IHttpRequest } from '../../protocols/http'
 
 import { badRequest, ok, serverError } from '../helpers/httpHelper'
 
-import { IEmailValidtor } from '../protocols/email-validator'
+import { IEmailValidtor } from '../../protocols/email-validator'
 import MissingParamError from '../errors/missing-param-error'
 import InvalidParamError from '../errors/invalid-param-error'
 import { AddAccount } from '../../../domain/usecases/add-account'

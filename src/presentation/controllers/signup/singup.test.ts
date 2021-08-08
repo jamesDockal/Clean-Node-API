@@ -1,7 +1,7 @@
 import InvalidParamError from '../errors/invalid-param-error'
 import MissingParamError from '../errors/missing-param-error'
 import ServerError from '../errors/internal-server-error'
-import { IEmailValidtor } from '../protocols/email-validator'
+import { IEmailValidtor } from '../../protocols/email-validator'
 import SingUpController from './signup'
 import { AddAccount, AddAccountModel } from '../../../domain/usecases/add-account'
 import { AccountModel } from '../../../domain/models/account-model'

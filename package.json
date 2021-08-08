@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --maxWorkers=50%",
-    "test:staged": "jest"
+    "test": "jest --watch ",
+    "test:staged": "jest --findRelatedTests "
   },
   "author": "",
   "license": "ISC",
