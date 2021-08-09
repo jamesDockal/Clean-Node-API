@@ -4,14 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch ",
-    "test:staged": "jest --findRelatedTests "
+    "test": "jest --passWithNoTests --runInBand --no-cache",
+    "test:staged": "npm test --findRelatedTests",
+    "test:watch": "jest --watchAll",
+    "test:ci": "npm test -- --coverage"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^2.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^26.0.24",
+    "@types/mongodb": "^4.0.7",
     "@types/node": "^16.4.3",
     "@types/validator": "^13.6.3",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
@@ -30,6 +34,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "mongodb": "^4.1.0",
     "validator": "^13.6.0"
   }
 }
