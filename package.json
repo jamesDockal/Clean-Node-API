@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "jest --passWithNoTests --runInBand",
-		"test:dev": "npm run test -- --silent  --watch",
+		"test:dev": "jest --watch",
 		"test:unit": "npm run test -- -c jest-unit-config.ts",
 		"test:integration": "npm run test -- -c jest-integration-config.ts",
 		"test:staged": "npm run test -- --findRelatedTests",
