@@ -9,7 +9,7 @@
 		"test:dev": "jest --watch",
 		"test:unit": "npm run test -- -c jest-unit-config.ts",
 		"test:integration": "npm run test -- -c jest-integration-config.ts",
-		"test:staged": "npm run test -- --findRelatedTests",
+		"test:staged": "npm run test --",
 		"test:ci": "npm run test -- --coverage"
 	},
 	"keywords": [],

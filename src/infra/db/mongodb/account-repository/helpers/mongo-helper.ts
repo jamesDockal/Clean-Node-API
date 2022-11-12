@@ -10,8 +10,10 @@ export const MongoHelper = {
 	},
 
 	async disconnect() {
-		await this.client.close();
-		this.client = null;
+		if (this.client) {
+			await this.client.close();
+			this.client = null;
+		}
 	},
 
 	async getCollection(name: string): Promise<Collection> {
