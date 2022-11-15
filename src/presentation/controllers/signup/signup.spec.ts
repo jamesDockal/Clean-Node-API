@@ -1,5 +1,6 @@
 import { InvalidParamError, MissingParamError, ServerError } from '../../erros';
 import { badRequest } from '../../helpers/http-helper';
+import { CompareFieldsValidation } from '../../helpers/validators/compare-fields-validation';
 import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
 import { ValidationComposite } from '../../helpers/validators/validation-composite';
 import { SignUpController } from './signup';
@@ -28,6 +29,11 @@ const makeValidation = (): Validation => {
 	for (const field of requiredFields) {
 		validations.push(new RequiredFieldValidation(field));
 	}
+
+	validations.push(
+		new CompareFieldsValidation('password', 'passwordConfirmation')
+	);
+
 	return new ValidationComposite(validations);
 };
 
