@@ -1,6 +1,7 @@
 import { InvalidParamError, MissingParamError, ServerError } from '../../erros';
 import { badRequest } from '../../helpers/http-helper';
 import { CompareFieldsValidation } from '../../helpers/validators/compare-fields-validation';
+import { EmailValidation } from '../../helpers/validators/email-validation';
 import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
 import { ValidationComposite } from '../../helpers/validators/validation-composite';
 import { SignUpController } from './signup';
@@ -23,7 +24,7 @@ const makeEmailValidator = (): EmailValidator => {
 	return new EmailValidatorStub();
 };
 
-const makeValidation = (): Validation => {
+const makeValidation = (emailValidator: EmailValidator): Validation => {
 	const validations: Validation[] = [];
 	const requiredFields = ['name', 'email', 'password', 'passwordConfirmation'];
 	for (const field of requiredFields) {
@@ -33,6 +34,8 @@ const makeValidation = (): Validation => {
 	validations.push(
 		new CompareFieldsValidation('password', 'passwordConfirmation')
 	);
+
+	validations.push(new EmailValidation('email', emailValidator));
 
 	return new ValidationComposite(validations);
 };
@@ -69,15 +72,11 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-	const emailValidatorStub = makeEmailValidator();
 	const addAccountStub = makeAddAccount();
-	const validationStub = makeValidation();
+	const emailValidatorStub = makeEmailValidator();
+	const validationStub = makeValidation(emailValidatorStub);
 
-	const sut = new SignUpController(
-		emailValidatorStub,
-		addAccountStub,
-		validationStub
-	);
+	const sut = new SignUpController(addAccountStub, validationStub);
 
 	return {
 		sut,
