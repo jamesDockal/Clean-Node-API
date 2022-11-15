@@ -5,7 +5,6 @@ import {
 	serverError,
 	unauthorized,
 } from '../../helpers/http-helper';
-import { Validation } from '../signup/signup-protocols';
 import {
 	Controller,
 	HttpRequest,
@@ -17,21 +16,14 @@ import {
 export class LoginController implements Controller {
 	private readonly emailValidator: EmailValidator;
 	private readonly authentication: Authentication;
-	private readonly validation: Validation;
 
-	constructor(
-		emailValidator: EmailValidator,
-		authentication: Authentication,
-		validation: Validation
-	) {
+	constructor(emailValidator: EmailValidator, authentication: Authentication) {
 		this.emailValidator = emailValidator;
 		this.authentication = authentication;
-		this.validation = validation;
 	}
 
 	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
 		try {
-			this.validation.validate(httpRequest.body);
 			const requiredFields = ['email', 'password'];
 			const { body } = httpRequest;
 
