@@ -1,10 +1,15 @@
 import { InvalidParamError, MissingParamError, ServerError } from '../../erros';
+import { badRequest } from '../../helpers/http-helper';
+import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
+import { ValidationComposite } from '../../helpers/validators/validation-composite';
 import { SignUpController } from './signup';
 import {
 	AddAccount,
 	EmailValidator,
 	AccountModel,
 	AddAccountModel,
+	Validation,
+	HttpRequest,
 } from './signup-protocols';
 
 const makeEmailValidator = (): EmailValidator => {
@@ -15,6 +20,15 @@ const makeEmailValidator = (): EmailValidator => {
 	}
 
 	return new EmailValidatorStub();
+};
+
+const makeValidation = (): Validation => {
+	const validations: Validation[] = [];
+	const requiredFields = ['name', 'email', 'password', 'passwordConfirmation'];
+	for (const field of requiredFields) {
+		validations.push(new RequiredFieldValidation(field));
+	}
+	return new ValidationComposite(validations);
 };
 
 const makeAddAccount = (): AddAccount => {
@@ -32,22 +46,38 @@ const makeAddAccount = (): AddAccount => {
 	return new AddAccountStub();
 };
 
+const makeFakeRequest = (): HttpRequest => ({
+	body: {
+		name: 'any_name',
+		email: 'any_email@mail.com',
+		password: 'any_password',
+		passwordConfirmation: 'any_password',
+	},
+});
+
 interface SutTypes {
 	sut: SignUpController;
 	emailValidatorStub: EmailValidator;
 	addAccountStub: AddAccount;
+	validationStub: Validation;
 }
 
 const makeSut = (): SutTypes => {
 	const emailValidatorStub = makeEmailValidator();
 	const addAccountStub = makeAddAccount();
+	const validationStub = makeValidation();
 
-	const sut = new SignUpController(emailValidatorStub, addAccountStub);
+	const sut = new SignUpController(
+		emailValidatorStub,
+		addAccountStub,
+		validationStub
+	);
 
 	return {
 		sut,
 		emailValidatorStub,
 		addAccountStub,
+		validationStub,
 	};
 };
 
@@ -234,5 +264,26 @@ describe('SignUp Controller', () => {
 			email: 'any_email@mail.com',
 			password: 'any_password',
 		});
+	});
+
+	test('should call Validation with correct value', async () => {
+		const { sut, validationStub } = makeSut();
+		const validateSpy = jest.spyOn(validationStub, 'validate');
+
+		const httpRequest = makeFakeRequest();
+		await sut.handle(httpRequest);
+
+		expect(validateSpy).toBeCalledWith(httpRequest.body);
+	});
+
+	test('should return 400 if Validation returns an error', async () => {
+		const { sut, validationStub } = makeSut();
+		jest
+			.spyOn(validationStub, 'validate')
+			.mockReturnValueOnce(new MissingParamError('any_field'));
+		const httpResponse = await sut.handle(makeFakeRequest());
+		expect(httpResponse).toEqual(
+			badRequest(new MissingParamError('any_field'))
+		);
 	});
 });

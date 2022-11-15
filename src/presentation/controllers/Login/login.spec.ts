@@ -9,6 +9,13 @@ import { EmailValidator, HttpRequest } from '../signup/signup-protocols';
 import { LoginController } from './login';
 import { Authentication } from './login-protocols';
 
+const makeFakeRequest = (): HttpRequest => ({
+	body: {
+		email: 'any_email',
+		password: 'any_password',
+	},
+});
+
 const makeEmailValidator = (): EmailValidator => {
 	class EmailValidatorStub implements EmailValidator {
 		isValid(email: string): boolean {
@@ -47,13 +54,6 @@ const makeSut = (): SutTypes => {
 		authenticationStub,
 	};
 };
-
-const makeFakeRequest = (): HttpRequest => ({
-	body: {
-		email: 'any_email',
-		password: 'any_password',
-	},
-});
 
 describe('Login Controller', () => {
 	test('should return 400 if no email is provided', async () => {
@@ -139,7 +139,7 @@ describe('Login Controller', () => {
 		expect(httpResponse).toEqual(unauthorized());
 	});
 
-	test('should return 500 if Authentication thorws', async () => {
+	test('should return 500 if Authentication throws', async () => {
 		const { sut, authenticationStub } = makeSut();
 		jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => {
 			throw new Error();
@@ -150,7 +150,7 @@ describe('Login Controller', () => {
 		expect(httpResponse).toEqual(serverError(new Error()));
 	});
 
-	test('should return 500 if Authentication thorws', async () => {
+	test('should return 500 if Authentication throws', async () => {
 		const { sut } = makeSut();
 
 		const httpResponse = await sut.handle(makeFakeRequest());

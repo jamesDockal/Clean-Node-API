@@ -16,7 +16,7 @@ describe('SignUp Routes', () => {
 		await accountCollection.deleteMany({});
 	});
 
-	test('should return status on success', async () => {
+	test('should return status 200 on success', async () => {
 		await request(app)
 			.post('/api/signup')
 			.send({
