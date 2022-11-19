@@ -7,7 +7,7 @@ import {
 } from '../../helpers/http-helper';
 import { EmailValidator, HttpRequest } from '../signup/signup-protocols';
 import { LoginController } from './login';
-import { Authentication } from './login-protocols';
+import { Authentication, AuthenticationModel } from './login-protocols';
 
 const makeFakeRequest = (): HttpRequest => ({
 	body: {
@@ -28,7 +28,7 @@ const makeEmailValidator = (): EmailValidator => {
 
 const makeAuthentication = (): Authentication => {
 	class AuthenticationStub implements Authentication {
-		async auth(email: string, password: string): Promise<string> {
+		async auth({ email, password }: AuthenticationModel): Promise<string> {
 			return 'any_token';
 		}
 	}
@@ -122,10 +122,10 @@ describe('Login Controller', () => {
 		const httpRequest = makeFakeRequest();
 		await sut.handle(httpRequest);
 
-		expect(authSpy).toBeCalledWith(
-			httpRequest.body.email,
-			httpRequest.body.password
-		);
+		expect(authSpy).toBeCalledWith({
+			email: httpRequest.body.email,
+			password: httpRequest.body.password,
+		});
 	});
 
 	test('should return 401 if invalid credentials are provided', async () => {
