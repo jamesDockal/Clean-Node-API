@@ -5,7 +5,14 @@ import {
 	serverError,
 	unauthorized,
 } from '../../helpers/http-helper';
-import { EmailValidator, HttpRequest } from '../signup/signup-protocols';
+import { EmailValidation } from '../../helpers/validators/email-validation';
+import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
+import { ValidationComposite } from '../../helpers/validators/validation-composite';
+import {
+	EmailValidator,
+	HttpRequest,
+	Validation,
+} from '../signup/signup-protocols';
 import { LoginController } from './login';
 import { Authentication, AuthenticationModel } from './login-protocols';
 
@@ -36,22 +43,37 @@ const makeAuthentication = (): Authentication => {
 	return new AuthenticationStub();
 };
 
+const makeValidation = (emailValidator: EmailValidator): Validation => {
+	const validations: Validation[] = [];
+	const requiredFields = ['email', 'password'];
+	for (const field of requiredFields) {
+		validations.push(new RequiredFieldValidation(field));
+	}
+
+	validations.push(new EmailValidation('email', emailValidator));
+
+	return new ValidationComposite(validations);
+};
+
 interface SutTypes {
 	sut: LoginController;
 	emailValidatorStub: EmailValidator;
 	authenticationStub: Authentication;
+	validationStub: Validation;
 }
 
 const makeSut = (): SutTypes => {
 	const emailValidatorStub = makeEmailValidator();
+	const validationStub = makeValidation(emailValidatorStub);
 	const authenticationStub = makeAuthentication();
 
-	const sut = new LoginController(emailValidatorStub, authenticationStub);
+	const sut = new LoginController(authenticationStub, validationStub);
 
 	return {
 		sut,
 		emailValidatorStub,
 		authenticationStub,
+		validationStub,
 	};
 };
 
