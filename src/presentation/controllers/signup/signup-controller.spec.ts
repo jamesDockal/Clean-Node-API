@@ -1,5 +1,5 @@
 import { InvalidParamError, MissingParamError, ServerError } from '../../erros';
-import { badRequest } from '../../helpers/http-helper';
+import { badRequest, forbidden } from '../../helpers/http-helper';
 import { CompareFieldsValidation } from '../../helpers/validators/compare-fields-validation';
 import { EmailValidation } from '../../helpers/validators/email-validation';
 import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
@@ -318,5 +318,16 @@ describe('SignUp Controller', () => {
 			email: httpRequest.body.email,
 			password: httpRequest.body.password,
 		});
+	});
+
+	test('should return 403 if AddAccount returns null', async () => {
+		const { sut, addAccountStub } = makeSut();
+
+		jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(null as any);
+
+		const httpRequest = makeFakeRequest();
+
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse).toEqual(forbidden(new InvalidParamError('email')));
 	});
 });

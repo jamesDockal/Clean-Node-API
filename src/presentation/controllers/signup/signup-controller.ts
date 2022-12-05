@@ -7,7 +7,13 @@ import {
 	Validation,
 } from './signup-protocols';
 
-import { badRequest, ok, serverError } from '../../helpers/http-helper';
+import {
+	badRequest,
+	forbidden,
+	ok,
+	serverError,
+} from '../../helpers/http-helper';
+import { InvalidParamError } from '../../erros';
 
 export class SignUpController implements Controller {
 	private readonly addAccount: AddAccount;
@@ -34,11 +40,15 @@ export class SignUpController implements Controller {
 
 			const { name, email, password } = httpRequest.body;
 
-			await this.addAccount.add({
+			const account = await this.addAccount.add({
 				name,
 				email,
 				password,
 			});
+
+			if (!account) {
+				return forbidden(new InvalidParamError('email'));
+			}
 
 			const accessToken = await this.authentication.auth({
 				email,
