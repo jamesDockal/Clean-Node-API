@@ -283,10 +283,7 @@ describe('SignUp Controller', () => {
 		const httpResponse = await sut.handle(httpRequest);
 		expect(httpResponse.statusCode).toBe(200);
 		expect(httpResponse.body).toEqual({
-			id: 'any_id',
-			name: 'any_name',
-			email: 'any_email@mail.com',
-			password: 'any_password',
+			accessToken: 'any_token',
 		});
 	});
 
