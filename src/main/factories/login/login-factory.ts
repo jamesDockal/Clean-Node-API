@@ -1,14 +1,13 @@
 import { BCryptAdapter } from '../../../infra/criptography/bcrypt-adapter/bcrypt-adapter';
 import { JwtAdapter } from '../../../infra/criptography/jwt-adapter/jwt-adapter';
 import { LogMongoRepository } from '../../../infra/db/mongodb/log-repository/log';
-import { LoginController } from '../../../presentation/controllers/login/login';
 import { Controller } from '../../../presentation/protocols';
 import { LogControllerDecorator } from '../../decorators/log';
-
 import env from '../../config/env';
 import { AccountMongoRepository } from '../../../infra/db/mongodb/account/account-mongo-repository';
 import { DbAuthentication } from '../../../data/useCases/authentication/db-authentication';
 import { makeLoginValidationComposite } from './login-validation';
+import { LoginController } from '../../../presentation/controllers/login/login-controller';
 
 export const makeLoginController = (): Controller => {
 	const salt = 12;

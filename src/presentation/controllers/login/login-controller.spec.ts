@@ -13,7 +13,7 @@ import {
 	HttpRequest,
 	Validation,
 } from '../signup/signup-protocols';
-import { LoginController } from './login';
+import { LoginController } from './login-controller';
 import { Authentication, AuthenticationModel } from './login-protocols';
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -154,7 +154,9 @@ describe('Login Controller', () => {
 		const { sut, authenticationStub } = makeSut();
 		jest
 			.spyOn(authenticationStub, 'auth')
-			.mockReturnValueOnce(new Promise((resolve) => resolve(null)));
+			.mockReturnValueOnce(
+				new Promise((resolve) => resolve(null as unknown as string))
+			);
 
 		const httpResponse = await sut.handle(makeFakeRequest());
 
