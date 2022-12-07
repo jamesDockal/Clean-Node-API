@@ -7,7 +7,7 @@ import env from '../../config/env';
 import { AccountMongoRepository } from '../../../infra/db/mongodb/account/account-mongo-repository';
 import { DbAuthentication } from '../../../data/useCases/authentication/db-authentication';
 import { makeLoginValidationComposite } from './login-validation';
-import { LoginController } from '../../../presentation/controllers/login/login-controller';
+import { LoginController } from '../../../presentation/controllers/login/login/login-controller';
 
 export const makeLoginController = (): Controller => {
 	const salt = 12;

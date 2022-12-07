@@ -1,4 +1,4 @@
-import { Authentication } from '../../../domain/useCases/authentication';
+import { Authentication } from 'domain/useCases/authentication';
 import {
 	AddAccount,
 	Controller,
@@ -12,8 +12,8 @@ import {
 	forbidden,
 	ok,
 	serverError,
-} from '../../helpers/http-helper';
-import { InvalidParamError } from '../../erros';
+} from '../../../../presentation/helpers/http-helper';
+import { InvalidParamError } from '../../../erros';
 
 export class SignUpController implements Controller {
 	private readonly addAccount: AddAccount;

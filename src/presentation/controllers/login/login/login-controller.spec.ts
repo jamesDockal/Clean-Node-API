@@ -1,13 +1,13 @@
-import { InvalidParamError, MissingParamError } from '../../erros';
+import { InvalidParamError, MissingParamError } from '../../../erros';
 import {
 	badRequest,
 	ok,
 	serverError,
 	unauthorized,
-} from '../../helpers/http-helper';
-import { EmailValidation } from '../../helpers/validators/email-validation';
-import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
-import { ValidationComposite } from '../../helpers/validators/validation-composite';
+} from '../../../helpers/http-helper';
+import { EmailValidation } from '../../../helpers/validators/email-validation';
+import { RequiredFieldValidation } from '../../../helpers/validators/required-field-validation';
+import { ValidationComposite } from '../../../helpers/validators/validation-composite';
 import {
 	EmailValidator,
 	HttpRequest,

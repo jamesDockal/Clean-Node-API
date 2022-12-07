@@ -1,9 +1,13 @@
-import { InvalidParamError, MissingParamError, ServerError } from '../../erros';
-import { badRequest, forbidden } from '../../helpers/http-helper';
-import { CompareFieldsValidation } from '../../helpers/validators/compare-fields-validation';
-import { EmailValidation } from '../../helpers/validators/email-validation';
-import { RequiredFieldValidation } from '../../helpers/validators/required-field-validation';
-import { ValidationComposite } from '../../helpers/validators/validation-composite';
+import {
+	InvalidParamError,
+	MissingParamError,
+	ServerError,
+} from '../../../erros';
+import { badRequest, forbidden } from '../../../helpers/http-helper';
+import { CompareFieldsValidation } from '../../../helpers/validators/compare-fields-validation';
+import { EmailValidation } from '../../../helpers/validators/email-validation';
+import { RequiredFieldValidation } from '../../../helpers/validators/required-field-validation';
+import { ValidationComposite } from '../../../helpers/validators/validation-composite';
 import { SignUpController } from './signup-controller';
 import {
 	AddAccount,

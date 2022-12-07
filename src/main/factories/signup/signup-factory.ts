@@ -1,4 +1,4 @@
-import { SignUpController } from '../../../presentation/controllers/signup/signup-controller';
+import { SignUpController } from '../../../presentation/controllers/login/signup/signup-controller';
 import { DbAddAccount } from '../../../data/useCases/add-account/db-add-account';
 import { BCryptAdapter } from '../../../infra/criptography/bcrypt-adapter/bcrypt-adapter';
 import { AccountMongoRepository } from '../../../infra/db/mongodb/account/account-mongo-repository';
