@@ -1,4 +1,7 @@
-import { badRequest } from '../../../../presentation/helpers/http-helper';
+import {
+	badRequest,
+	created,
+} from '../../../../presentation/helpers/http-helper';
 import { Validation } from 'presentation/helpers/validators/validation';
 import { Controller, HttpRequest, HttpResponse } from './add-survey-protocols';
 import { AddSurvey } from 'domain/useCases/add-survey';
@@ -17,6 +20,6 @@ export class AddSurveyController implements Controller {
 
 		await this.addSurvey.add(httpRequest.body);
 
-		return null;
+		return created();
 	}
 }
