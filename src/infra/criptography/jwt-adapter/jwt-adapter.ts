@@ -11,8 +11,6 @@ export class JwtAdapter implements TokenGenerator, Decrypter {
 	}
 
 	async decrypt(value: string): Promise<string> {
-		await jwt.verify(value, this.secret);
-
-		return null;
+		return (await jwt.verify(value, this.secret)) as string;
 	}
 }
