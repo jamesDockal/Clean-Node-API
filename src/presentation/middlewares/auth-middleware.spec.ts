@@ -1,7 +1,7 @@
 import { AccountModel } from 'domain/models/account';
 import { LoadAccountByToken } from 'domain/useCases/load-account-by-token';
 import { AccessDeniedError } from '../../presentation/erros';
-import { forbidden } from '../../presentation/helpers/http-helper';
+import { forbidden, ok } from '../../presentation/helpers/http-helper';
 import { AuthMiddleware } from './auth-middleware';
 
 const makeLoadAccountByToken = (): LoadAccountByToken => {
@@ -24,9 +24,9 @@ interface SutTypes {
 	loadAccountByTokenStub: LoadAccountByToken;
 }
 
-const makeSut = (): SutTypes => {
+const makeSut = (role?: string): SutTypes => {
 	const loadAccountByTokenStub = makeLoadAccountByToken();
-	const sut = new AuthMiddleware(loadAccountByTokenStub);
+	const sut = new AuthMiddleware(loadAccountByTokenStub, role);
 
 	return {
 		sut,
@@ -42,7 +42,8 @@ describe('Auth Middleware', () => {
 	});
 
 	test('should call LoadAccountByToken with correct accessToken', async () => {
-		const { sut, loadAccountByTokenStub } = makeSut();
+		const role = 'any_role';
+		const { sut, loadAccountByTokenStub } = makeSut(role);
 
 		const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
 
@@ -52,7 +53,7 @@ describe('Auth Middleware', () => {
 			},
 		});
 
-		expect(loadSpy).toHaveBeenCalledWith('any_token');
+		expect(loadSpy).toHaveBeenCalledWith('any_token', role);
 	});
 
 	test('should call LoadAccountByToken with correct accessToken', async () => {
@@ -65,5 +66,21 @@ describe('Auth Middleware', () => {
 		const httpResponse = await sut.handle({});
 
 		expect(httpResponse).toEqual(forbidden(new AccessDeniedError()));
+	});
+
+	test('should call LoadAccountByToken with correct accessToken', async () => {
+		const { sut } = makeSut();
+
+		const httpResponse = await sut.handle({
+			headers: {
+				'x-access-token': 'any_token',
+			},
+		});
+
+		expect(httpResponse).toEqual(
+			ok({
+				accountId: 'any_id',
+			})
+		);
 	});
 });
