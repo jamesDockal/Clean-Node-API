@@ -28,6 +28,6 @@ export const ok = (data: any): HttpResponse => ({
 });
 
 export const created = (data?: any): HttpResponse => ({
-	statusCode: 204,
+	statusCode: 201,
 	body: data,
 });
