@@ -56,7 +56,7 @@ export class AccountMongoRepository
 		const accountCollection = await MongoHelper.getCollection('accounts');
 		const account = (await accountCollection.findOne({
 			accessToken: token,
-			$or: ![
+			$or: [
 				{
 					role,
 				},
