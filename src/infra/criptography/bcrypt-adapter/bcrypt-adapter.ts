@@ -3,8 +3,8 @@ import { Encrypter } from '../../../data/protocols/criptography/encrypter';
 import { HashComparer } from '../../../data/protocols/criptography/hash-comparer';
 
 export class BCryptAdapter implements Encrypter, HashComparer {
-	private readonly salt: number;
-	constructor(salt: number) {
+	private readonly salt: number | string;
+	constructor(salt: number | string) {
 		this.salt = salt;
 	}
 

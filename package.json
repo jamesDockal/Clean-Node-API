@@ -8,7 +8,7 @@
 		"start": "node dist/main/server.js",
 		"start:dev": "ts-node-dev src/main/server.ts --watch ",
 		"test": "jest --passWithNoTests --runInBand",
-		"test:dev": "jest --watch",
+		"test:dev": "npm run test -- --watch ",
 		"test:unit": "npm run test -- -c jest-unit-config.ts",
 		"test:integration": "npm run test -- -c jest-integration-config.ts",
 		"test:staged": "npm run test --",
